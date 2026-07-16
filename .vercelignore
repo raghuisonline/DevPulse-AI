@@ -1,0 +1,11 @@
+.git
+.npm-cache
+.next
+.vinext
+.wrangler
+dist
+generated
+node_modules
+outputs
+work
+*.tsbuildinfo

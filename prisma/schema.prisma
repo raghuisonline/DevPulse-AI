@@ -1,0 +1,35 @@
+generator client {
+  provider     = "prisma-client"
+  output       = "../generated/prisma"
+  engineType   = "client"
+  runtime      = "nodejs"
+  moduleFormat = "esm"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model TelemetryLog {
+  id                   String    @id
+  tenantId             String    @map("tenant_id")
+  tenantName           String    @map("tenant_name")
+  serviceName          String    @map("service_name")
+  environment          String
+  errorType            String    @map("error_type")
+  message              String
+  stackTrace           String    @map("stack_trace")
+  latency              Float     @map("latency_ms")
+  status               String
+  receivedAt           DateTime  @map("received_at")
+  analysisStatus       String    @map("analysis_status")
+  rootCause            String?   @map("root_cause")
+  failingComponent     String?   @map("failing_component")
+  terminalPatchCommand String?   @map("terminal_patch_command")
+  analysisError        String?   @map("analysis_error")
+  analysedAt           DateTime? @map("analysed_at")
+
+  @@index([tenantId, receivedAt(sort: Desc)], map: "telemetry_logs_tenant_received_idx")
+  @@index([status, receivedAt(sort: Desc)], map: "telemetry_logs_status_received_idx")
+  @@map("telemetry_logs")
+}
